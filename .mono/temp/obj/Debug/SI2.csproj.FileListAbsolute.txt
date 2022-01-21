@@ -1,0 +1,9 @@
+D:\MisCosas\Escritorio\SI2\.mono\temp\bin\Debug\SI2.dll
+D:\MisCosas\Escritorio\SI2\.mono\temp\bin\Debug\SI2.pdb
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.csproj.AssemblyReference.cache
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.GeneratedMSBuildEditorConfig.editorconfig
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.AssemblyInfoInputs.cache
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.AssemblyInfo.cs
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.csproj.CoreCompileInputs.cache
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.dll
+D:\MisCosas\Escritorio\SI2\.mono\temp\obj\Debug\SI2.pdb
