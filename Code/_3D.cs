@@ -7,7 +7,7 @@ public class _3D : Spatial
     public Area PJ1,PJ2;
     public Bala bala1,bala2;
     public int vi1 = 2, vi2= 2;
-    public bool gameFin = false , reset = false;
+    public bool gameFin = false , reset = true;
     public Spatial naves1, naves2;
     float f1 = 0, f2 = 0;
     Vector3 v1, v2, _v1, _v2;
@@ -45,12 +45,28 @@ public class _3D : Spatial
             v2 = v;
         }
     }
-
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey k)
+        {
+            reset = false;
+            if (k.Scancode == 16777217)//escape
+            {
+                _2D._.Visible = true;
+                QueueFree();
+            }
+        }
+    }
     public void _on_PJ1_body_entered(Node n)
     {
         if (n is Bala b) {
             RemoveChild(b);
             vi1--;
+        }
+        if (n is Nave na)
+        {
+            vi1--;
+            na.Visible = false;
         }
     }
     public void _on_PJ2_body_entered(Node n)
@@ -60,13 +76,21 @@ public class _3D : Spatial
             RemoveChild(b);
             vi2--;
         }
+        if (n is Nave na) 
+        {
+            vi2--;
+            na.Visible = false;
+        }
+
+
     }
     public override void _Process(float delta)
     {
         if (!gameFin)
         {
-            
 
+            if (vi2 <= 0 || vi1<=0)
+                gameFin=true;
             //1
             if (Input.IsActionPressed("UP1") && PJ1.Translation.y < 45)
             {
@@ -87,7 +111,6 @@ public class _3D : Spatial
             }
             else
             {
-                reset = false;
                 bala1.Translation += Vector3.Back * 2;
                 if (Mathf.Abs(bala1.Translation.z) > 65)
                 {
@@ -115,7 +138,6 @@ public class _3D : Spatial
             else
             {
                 bala2.Translation += Vector3.Forward*2;
-                reset = false;
                 if (Mathf.Abs(bala2.Translation.z) > 65)
                 {
                     RemoveChild(bala2);
