@@ -1,5 +1,6 @@
 public enum Team
 {
-    ally,
-    enemy
+    teamA,
+    teamB,
+    neutral
 }
