@@ -3,5 +3,5 @@ using System;
 
 public class Bala : KinematicBody
 {
-    public int N = 0;
+	public int N = 0;
 }
