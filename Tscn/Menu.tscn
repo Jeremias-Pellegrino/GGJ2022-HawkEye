@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Code/_2D.cs" type="Script" id=1]
+[ext_resource path="res://Code/Menu.cs" type="Script" id=1]
 
 [node name="Node" type="Node"]
 
@@ -22,3 +22,6 @@ margin_top = -0.160004
 margin_right = -0.320038
 margin_bottom = -0.160034
 text = "juego 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,24 +1,24 @@
 using Godot;
 using System;
 
-public class _3D : Spatial
+public class SI2 : Spatial
 {
-    public static _3D _ { get; set; }
+    public static SI2 _ { get; set; }
     public Area PJ1,PJ2;
     public Bala bala1,bala2;
     public int vi1 = 2, vi2= 2;
     public bool gameFin = false , reset = true;
     public Spatial naves1, naves2;
-    float f1 = 0, f2 = 0;
-    Vector3 v1, v2, _v1, _v2;
+    float timeNaves = 0;
+    Vector3 DireccionNaves1, DireccionNaves2, _DireccionNaves1, _DireccionNaves2;
 
     public override void _Ready()
     {
         _ = this;
-        v1 = Vector3.Up;
-        v2 = Vector3.Up;
-        _v1 = Vector3.Up;
-        _v2 = Vector3.Up;
+        DireccionNaves1 = Vector3.Up;
+        DireccionNaves2 = Vector3.Up;
+        _DireccionNaves1 = Vector3.Up;
+        _DireccionNaves2 = Vector3.Up;
         PJ1 = GetNode<Area>("PJ1");
         PJ2 = GetNode<Area>("PJ2");
         bala1 = ((ResourceLoader.Load("res://Tscn/bala.tscn")) as PackedScene).Instance<Bala>();
@@ -38,11 +38,11 @@ public class _3D : Spatial
     {
         if (e > 0)
         {
-            v1 = v;
+            DireccionNaves1 = v;
             
         }
         else {
-            v2 = v;
+            DireccionNaves2 = v;
         }
     }
     public override void _Input(InputEvent @event)
@@ -52,7 +52,7 @@ public class _3D : Spatial
             reset = false;
             if (k.Scancode == 16777217)//escape
             {
-                _2D._.Visible = true;
+                Menu._.Visible = true;
                 QueueFree();
             }
         }
@@ -143,25 +143,21 @@ public class _3D : Spatial
                     RemoveChild(bala2);
                 }
             }
-            f1 += delta;
-            if (f1 >0.5f) {
-                f1 = 0;
-                naves1.Translation += v1 * 1;
-                if (!v1.Equals(_v1))
+            timeNaves += delta;
+            if (timeNaves > 0.5f) {
+                timeNaves = 0;
+                naves1.Translation += DireccionNaves1 * 1;
+                if (!DireccionNaves1.Equals(_DireccionNaves1))
                 {
-                    _v1 = v1;
-                    naves1.Translation += Vector3.Back * 1;
+                    _DireccionNaves1 = DireccionNaves1;
+                    naves1.Translation += Vector3.Back * 5;
                 }
-            }
-            f2 += delta;
-            if (f2 > 0.5f)
-            {
-                f2 = 0;
-                naves2.Translation += v2 * 1;
-                if (!v2.Equals(_v2))
+            
+                naves2.Translation += DireccionNaves2 * 1;
+                if (!DireccionNaves2.Equals(_DireccionNaves2))
                 {
-                    _v2 = v2;
-                    naves2.Translation += Vector3.Forward * 1;
+                    _DireccionNaves2 = DireccionNaves2;
+                    naves2.Translation += Vector3.Forward * 5;
                 }
             }
             
@@ -172,12 +168,14 @@ public class _3D : Spatial
             {
                 gameFin = false;
                 reset = true;
-                v1 = Vector3.Up;
-                v2 = Vector3.Up;
-                _v1 = Vector3.Up;
-                _v2 = Vector3.Up;
-                PJ1.Translation = new Vector3(-60, 0, 0);
-                PJ2.Translation = new Vector3( 60, 0, 0);
+                vi1=2;
+                vi2=2;
+                DireccionNaves1 = Vector3.Up;
+                DireccionNaves2 = Vector3.Up;
+                _DireccionNaves1 = Vector3.Up;
+                _DireccionNaves2 = Vector3.Up;
+                PJ1.Translation = new Vector3(0, 0, -60);
+                PJ2.Translation = new Vector3(0, 0, 60);
                 if (bala1.GetParentOrNull<Spatial>() != null)
                     RemoveChild(bala1);
                 if (bala2.GetParentOrNull<Spatial>() != null)
