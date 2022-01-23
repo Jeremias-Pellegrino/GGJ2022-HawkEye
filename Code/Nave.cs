@@ -25,13 +25,13 @@ public class Nave : Area
         if (GetParent<Spatial>().Translation.y + Translation.y > 45 && Visible)
         {
 
-            _3D._.MoveNave(e, Vector3.Down);
+            SI2._.MoveNave(e, Vector3.Down);
         }
         if (GetParent<Spatial>().Translation.y + Translation.y < -45 && Visible)
         {
-            _3D._.MoveNave(e, Vector3.Up);
+            SI2._.MoveNave(e, Vector3.Up);
         }
-        if (_3D._.reset && !Visible)
+        if (SI2._.reset && !Visible)
             Visible = true;
     }
 }
