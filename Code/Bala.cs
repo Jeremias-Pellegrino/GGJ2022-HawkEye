@@ -3,5 +3,5 @@ using System;
 
 public class Bala : KinematicBody
 {
-    public int N = 0;
+		public Team team = Team.neutral;
 }

@@ -3,35 +3,44 @@ using System;
 
 public class Nave : Area
 {
-    int e = 0;
-    public override void _Ready()
-    {
-        e = ((int)GetParent<Spatial>().Scale.z);
-    }
+	Team team;
+	
+	private Team assignTeam(){
+		//Usamos la orientacion del parent para saber si la nave es aliada o enemiga
+		switch(((int)GetParent<Spatial>().Scale.z)){
+			case 1:
+				return Team.teamA;
+			case -1:
+				return Team.teamB;
+			default:
+				return Team.neutral;
+		}
+	}
 
-    public void _on_body_entered(Node n)
-    {
-        if (n is Bala b)
-        {
-            if (b.N != e && Visible)
-            {
-                b.GetParent().RemoveChild(b);
-                Visible = false;
-            }
-        }
-    }
-    public override void _Process(float delta)
-    {
-        if (GetParent<Spatial>().Translation.y + Translation.y > 45 && Visible)
-        {
+	public override void _Ready()
+	{
+		team = assignTeam();
+	}
 
-            SI2._.MoveNave(e, Vector3.Down);
-        }
-        if (GetParent<Spatial>().Translation.y + Translation.y < -45 && Visible)
-        {
-            SI2._.MoveNave(e, Vector3.Up);
-        }
-        if (SI2._.reset && !Visible)
-            Visible = true;
-    }
+	public void _on_body_entered(Node n)
+	{
+		if (n is Bala incomingBullet && (incomingBullet.team != team) && Visible)
+		{
+			incomingBullet.GetParent().RemoveChild(incomingBullet);
+			Visible = false;
+		}
+	}
+	public override void _Process(float delta)
+	{
+		if (GetParent<Spatial>().Translation.y + Translation.y > 45 && Visible)
+		{
+			SI2._.MoveNave((int) team, Vector3.Down);
+		}
+		if (GetParent<Spatial>().Translation.y + Translation.y < -45 && Visible)
+		{
+			SI2._.MoveNave((int) team, Vector3.Up);
+		}
+		if (SI2._.reset && !Visible)
+			Visible = true;
+	}
 }
