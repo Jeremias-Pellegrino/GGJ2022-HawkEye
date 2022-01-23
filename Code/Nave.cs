@@ -3,7 +3,7 @@ using System;
 
 public class Nave : Area
 {
-	int team;
+	Team team;
 	
 	private Team assignTeam(){
 		//Usamos la orientacion del parent para saber si la nave es aliada o enemiga
@@ -12,6 +12,8 @@ public class Nave : Area
 				return Team.teamA;
 			case -1:
 				return Team.teamB;
+			default:
+				return Team.neutral;
 		}
 	}
 
@@ -32,11 +34,11 @@ public class Nave : Area
 	{
 		if (GetParent<Spatial>().Translation.y + Translation.y > 45 && Visible)
 		{
-			SI2._.MoveNave(e, Vector3.Down);
+			SI2._.MoveNave((int) team, Vector3.Down);
 		}
 		if (GetParent<Spatial>().Translation.y + Translation.y < -45 && Visible)
 		{
-			SI2._.MoveNave(e, Vector3.Up);
+			SI2._.MoveNave((int) team, Vector3.Up);
 		}
 		if (SI2._.reset && !Visible)
 			Visible = true;

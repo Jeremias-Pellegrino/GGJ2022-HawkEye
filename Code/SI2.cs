@@ -28,8 +28,8 @@ public class SI2 : Spatial
 		naves2.Translation = new Vector3(0, 0, 50);
 		naves1.Translation = new Vector3(0, 0, -50);
 		naves2.Scale = new Vector3(1, 1, -1);
-		bala1.N = 1;
-		bala2.N = -1;
+		bala1.team = Team.teamA;
+		bala2.team = Team.teamB;
 		AddChild(naves1);
 		AddChild(naves2);
 	}
