@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/images/Nave2.mesh" type="ArrayMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=5]
+vertex_color_use_as_albedo = true
+albedo_color = Color( 1, 1, 1, 0 )
+
+[sub_resource type="SphereMesh" id=6]
+material = SubResource( 5 )
+
+[sub_resource type="Gradient" id=7]
+colors = PoolColorArray( 1, 0, 0, 1, 0.875, 1, 0, 1 )
+
+[node name="Nave" type="Spatial"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+
+[node name="Jugador" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+amount = 6
+lifetime = 0.22
+mesh = SubResource( 6 )
+spread = 0.0
+scale_amount = 0.45
+color_ramp = SubResource( 7 )
