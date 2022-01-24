@@ -17,6 +17,10 @@ public class Nave : Area
             {
                 b.GetParent().RemoveChild(b);
                 Visible = false;
+                if (e == 1)
+                    SI2._.AStreamFx1.Playing = true;
+                else
+                    SI2._.AStreamFx2.Playing = true;
             }
         }
     }
