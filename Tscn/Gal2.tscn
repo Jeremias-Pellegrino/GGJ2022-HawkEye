@@ -1,0 +1,94 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Code/Gal2.cs" type="Script" id=1]
+[ext_resource path="res://Assets/images/Nave.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/images/Nave2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/ny/Edificios.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/naveBOSS.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/music-sfx/SI id2 PARA LOOP.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/music-sfx/GAME OVER 4 HELL mono.wav" type="AudioStream" id=7]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="ProceduralSky" id=2]
+sky_top_color = Color( 0.0941176, 0.133333, 0.152941, 1 )
+sky_horizon_color = Color( 0.137255, 0.141176, 0.145098, 1 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+fog_enabled = true
+fog_color = Color( 0.180392, 0.188235, 0.2, 1 )
+fog_sun_color = Color( 0, 0, 0, 1 )
+fog_depth_begin = 100.0
+fog_depth_end = 3792.3
+tonemap_mode = 2
+auto_exposure_enabled = true
+auto_exposure_min_luma = 0.25
+auto_exposure_max_luma = 1.0
+ss_reflections_enabled = true
+glow_enabled = true
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="PJ1" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, -60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="PJ1"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="Nave" parent="PJ1" instance=ExtResource( 2 )]
+
+[node name="PJ2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15, -60 )
+
+[node name="CollisionShape" type="CollisionShape" parent="PJ2"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="Nave" parent="PJ2" instance=ExtResource( 3 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -50, 0, 0 )
+fov = 90.0
+far = 800.0
+
+[node name="Edificios" parent="." instance=ExtResource( 4 )]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 214.565, -86.518, -100 )
+
+[node name="Edificios4" parent="Edificios" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39.2, 0, 18.7961 )
+
+[node name="Edificios2" parent="Edificios" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40 )
+
+[node name="Edificios5" parent="Edificios/Edificios2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 3.55271e-15, 0, 1, 0, -3.55271e-15, 0, 1, 39.2, 0, 18.7961 )
+
+[node name="Edificios3" parent="Edificios/Edificios2" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40 )
+
+[node name="Edificios6" parent="Edificios/Edificios2/Edificios3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39.2, 0, 18.7961 )
+
+[node name="BOSS" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 120 )
+
+[node name="Victory" type="AudioStreamPlayer" parent="."]
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+autoplay = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[connection signal="body_entered" from="PJ1" to="." method="_on_PJ1_body_entered"]
+[connection signal="body_entered" from="PJ2" to="." method="_on_PJ2_body_entered"]
+[connection signal="finished" from="Victory" to="." method="_on_GameOver_finished"]
+[connection signal="finished" from="GameOver" to="." method="_on_GameOver_finished"]

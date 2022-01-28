@@ -4,13 +4,13 @@ using System;
 public class SI2 : Spatial
 {
     public static SI2 _ { get; set; }
-    public Area PJ1,PJ2;
-    public Bala bala1,bala2;
-    public int vi1 = 2, vi2= 2;
-    public bool gameFin = false , reset = true;
+    public Area PJ1, PJ2;
+    public Bala bala1, bala2;
+    public int vi1 = 2, vi2 = 2;
+    public bool gameFin = false, reset = true;
     public Spatial naves1, naves2;
-    float timeNaves = 0, balaSpeed1=2, balaSpeed2 = 2, PJSpeed1 = 1, PJSpeed2 = 1;
-    public AudioStreamPlayer AStream, AStreamMuerte, AStreamFx1, AStreamFx2;
+    float timeNave1 = 0, timeNave2 = 0, balaSpeed1 = 2, balaSpeed2 = 2, PJSpeed1 = 1, PJSpeed2 = 1;
+    public AudioStreamPlayer AStream, AStreamMuerte, AStreamFx1, AStreamFx2, fxon,fxoff1,fxoff2;
     Vector3 DireccionNaves1, DireccionNaves2, _DireccionNaves1, _DireccionNaves2;
     Buff bf1, bf2;
     float TimeToBuff = 0;
@@ -35,7 +35,10 @@ public class SI2 : Spatial
         AStream = GetNode<AudioStreamPlayer>("AudioSI2");
         AStreamMuerte = GetNode<AudioStreamPlayer>("AudioMuerto");
         AStreamFx1 = GetNode<AudioStreamPlayer>("AudioFXNave1");
-        AStreamFx2 = GetNode<AudioStreamPlayer>("AudioFXNave1");
+        AStreamFx2 = GetNode<AudioStreamPlayer>("AudioFXNave2");
+        fxon = GetNode<AudioStreamPlayer>("AudioBuffOn");
+        fxoff1 = GetNode<AudioStreamPlayer>("AudioBuffOff1");
+        fxoff2 = GetNode<AudioStreamPlayer>("AudioBuffOff2");
         bf1 = GetNode<Buff>("Buff1");
         bf2 = GetNode<Buff>("Buff2");
         bala1 = ((ResourceLoader.Load("res://Tscn/bala.tscn")) as PackedScene).Instance<Bala>();
@@ -45,8 +48,8 @@ public class SI2 : Spatial
         naves2.Translation = new Vector3(0, 0, 50);
         naves1.Translation = new Vector3(0, 0, -50);
         naves2.Scale = new Vector3(1, 1, -1);
-        bala1.N = 1;
-        bala2.N = -1;
+        bala1.SetBala(1);
+        bala2.SetBala(-1);
         AddChild(naves1);
         AddChild(naves2);
     }
@@ -56,7 +59,7 @@ public class SI2 : Spatial
         if (e > 0)
         {
             DireccionNaves1 = v;
-            
+
         }
         else {
             DireccionNaves2 = v;
@@ -69,7 +72,7 @@ public class SI2 : Spatial
             reset = false;
             if (k.Scancode == 16777217)//escape
             {
-                Menu._.ButtonPlay1.Visible = true;
+                Menu._.Visible = true;
                 Menu._.AStream.Playing = true;
                 QueueFree();
             }
@@ -83,16 +86,10 @@ public class SI2 : Spatial
             if (vi1 > 0)
                 AStreamFx1.Playing = true;
         }
-        if (n is Nave na)
-        {
-            vi1--;
-            na.Visible = false;
-            if(vi1>0)
-                AStreamFx1.Playing = true;
-        }
         if (n is Buff bf)
         {
             if (bf.Visible) {
+                fxoff1.Playing = true;
                 bf.Visible = false;
                 Buff1(bf);
             }
@@ -121,17 +118,11 @@ public class SI2 : Spatial
             if (vi2 > 0)
                 AStreamFx2.Playing = true;
         }
-        if (n is Nave na) 
-        {
-            vi2--;
-            na.Visible = false;
-            if (vi2 > 0)
-                AStreamFx2.Playing = true;
-        }
         if (n is Buff bf)
         {
             if (bf.Visible)
             {
+                fxoff2.Playing = true;
                 bf.Visible = false;
                 Buff2(bf);
             }
@@ -158,14 +149,17 @@ public class SI2 : Spatial
         if (!gameFin)
         {
             sp3D.Texture = vTemp.GetVideoTexture();
-
-            if (vi2 <= 0 || vi1 <= 0)
+            if ((vi2 > 0 && vi1 <= 0) || (naves1.Translation.z != PJ2.Translation.z && naves2.Translation.z == PJ1.Translation.z))
             {
-                AStream.Playing = false;
-                AStreamMuerte.Playing = true;
-                bala1.GetNode<AudioStreamPlayer>("AudioBala").Playing = false;
-                bala2.GetNode<AudioStreamPlayer>("AudioBala").Playing = false;
-                gameFin = true;
+                Fin("PJ2 gana");
+            }
+            else if ((vi2 <= 0 && vi1 > 0) || (naves1.Translation.z == PJ2.Translation.z && naves2.Translation.z != PJ1.Translation.z))
+            {
+                Fin("PJ1 gana");
+            }
+            else if ((vi2 <= 0 && vi1 <= 0) || (naves1.Translation.z == PJ2.Translation.z && naves2.Translation.z == PJ1.Translation.z))
+            {
+                Fin("Empate");
             }
             //1
             if (Input.IsActionPressed("UP1") && PJ1.Translation.y < 45)
@@ -232,8 +226,8 @@ public class SI2 : Spatial
             TimeToBuff += delta;
             if (TimeToBuff > 10.1f) {
                 TimeToBuff = 0;
-                int i = r.RandiRange(0,9);
-                if (i%2 == 0)
+                int i = r.RandiRange(0, 9);
+                if (i % 2 == 0)
                 {
                     bf1.tipo = r.RandiRange(1, 2);
                     bf1.Visible = true;
@@ -243,6 +237,7 @@ public class SI2 : Spatial
                     bf2.tipo = r.RandiRange(1, 2);
                     bf2.Visible = true;
                 }
+                fxon.Playing = true;
             }
 
             if (balaSpeed1 > 2)
@@ -254,26 +249,30 @@ public class SI2 : Spatial
             if (PJSpeed2 > 1)
                 PJSpeed2 -= 0.05f * delta;
 
-            timeNaves += delta;
-            if (timeNaves > 0.5f) {
-                timeNaves = 0;
-                naves1.Translation += DireccionNaves1 * 1;
+            timeNave1 += delta;
+            if (timeNave1 > 0.65f * (Mathf.Abs(PJ2.Translation.z - naves1.Translation.z) / 110))
+            {
+                timeNave1 = 0;
+                naves1.Translation += DireccionNaves1 * 2.5f;
                 if (!DireccionNaves1.Equals(_DireccionNaves1))
                 {
                     _DireccionNaves1 = DireccionNaves1;
-                    naves1.Translation += Vector3.Back * 5;
+                    naves1.Translation += Vector3.Back * 10;
                 }
-            
-                naves2.Translation += DireccionNaves2 * 1;
+            }
+            timeNave2 += delta;
+            if (timeNave2 > 0.65f * (Mathf.Abs(PJ1.Translation.z - naves2.Translation.z) / 110))
+            {
+                timeNave2 = 0;
+                naves2.Translation += DireccionNaves2 * 2.5f;
                 if (!DireccionNaves2.Equals(_DireccionNaves2))
                 {
                     _DireccionNaves2 = DireccionNaves2;
-                    naves2.Translation += Vector3.Forward * 5;
+                    naves2.Translation += Vector3.Forward * 10;
                 }
             }
-            
         }
-        else 
+        else
         {
             if (Input.IsActionPressed("R"))
             {
@@ -282,8 +281,8 @@ public class SI2 : Spatial
                 gameFin = false;
                 reset = true;
                 AStream.Playing = true;
-                vi1 =2;
-                vi2=2;
+                vi1 = 2;
+                vi2 = 2;
                 DireccionNaves1 = Vector3.Up;
                 DireccionNaves2 = Vector3.Up;
                 _DireccionNaves1 = Vector3.Up;
@@ -300,5 +299,21 @@ public class SI2 : Spatial
                 naves2.Translation = new Vector3(0, 0, 50);
             }
         }
+    }
+    public void _on_GameOver_finished()
+    {
+        Menu._.Visible = true;
+        Menu._.AStream.Playing = true;
+        QueueFree();
+    }
+
+    private void Fin(string s)
+    {
+        AStream.Playing = false;
+        AStreamMuerte.Playing = true;
+        bala1.GetNode<AudioStreamPlayer>("AudioBala").Playing = false;
+        bala2.GetNode<AudioStreamPlayer>("AudioBala").Playing = false;
+        gameFin = true;
+        GD.Print(s);
     }
 }

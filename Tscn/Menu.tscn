@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Code/Menu.cs" type="Script" id=1]
 [ext_resource path="res://Assets/music-sfx/AMBIENTE ARCADE v1.mp3" type="AudioStream" id=2]
+[ext_resource path="res://Assets/FondoMenu.png" type="Texture" id=3]
+[ext_resource path="res://Assets/botones/JUEGO_2.png" type="Texture" id=4]
+[ext_resource path="res://Assets/music-sfx/ALIEN GLITCH INTRO.ogv" type="VideoStream" id=5]
+[ext_resource path="res://Assets/botones/JUEGO_1-2.png" type="Texture" id=6]
+[ext_resource path="res://Assets/botones/JUEGO_1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/botones/JUEGO_2-2.png" type="Texture" id=8]
 
 [node name="Node" type="Node"]
 
@@ -13,16 +19,45 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Play1" type="Button" parent="Control"]
-anchor_left = 0.356
-anchor_top = 0.517
-anchor_right = 0.656
-anchor_bottom = 0.617
-margin_left = -0.320007
+[node name="TextureRect" type="TextureRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play1" type="TextureButton" parent="Control"]
+anchor_left = 0.111
+anchor_top = 0.317
+anchor_right = 0.211
+anchor_bottom = 0.383
+margin_left = -2.92001
 margin_top = -0.160004
-margin_right = -0.320038
-margin_bottom = -0.160034
-text = "juego 1"
+margin_right = -4.92001
+margin_bottom = 10.16
+rect_rotation = -7.0
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play2" type="TextureButton" parent="Control"]
+anchor_left = 0.111
+anchor_top = 0.317
+anchor_right = 0.211
+anchor_bottom = 0.383
+margin_left = 113.08
+margin_top = -13.16
+margin_right = 98.08
+margin_bottom = -7.84
+rect_rotation = -7.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 8 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -30,3 +65,77 @@ __meta__ = {
 [node name="AudioMenu" type="AudioStreamPlayer" parent="Control"]
 stream = ExtResource( 2 )
 autoplay = true
+
+[node name="CG1" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayer" type="VideoPlayer" parent="CG1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SK" type="Button" parent="CG1"]
+anchor_left = 0.926
+anchor_top = 0.933
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.279968
+margin_top = 0.159973
+text = "Saltar"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="a" type="Button" parent="CG1"]
+anchor_top = 0.933
+anchor_right = 0.067
+anchor_bottom = 1.0
+text = "Atras"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CG2" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayer" type="VideoPlayer" parent="CG2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SK" type="Button" parent="CG2"]
+anchor_left = 0.926
+anchor_top = 0.933
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.279968
+margin_top = 0.159973
+text = "Saltar"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="a" type="Button" parent="CG2"]
+anchor_top = 0.933
+anchor_right = 0.067
+anchor_bottom = 1.0
+text = "Atras"
+__meta__ = {
+"_edit_use_anchors_": false
+}

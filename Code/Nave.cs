@@ -6,6 +6,7 @@ public class Nave : Area
     int e = 0;
     public override void _Ready()
     {
+        GetNode<MeshInstance>("MeshInstance").Visible = false;
         e = ((int)GetParent<Spatial>().Scale.z);
     }
 
