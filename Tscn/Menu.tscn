@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Code/Menu.cs" type="Script" id=1]
 [ext_resource path="res://Assets/music-sfx/AMBIENTE ARCADE v1.mp3" type="AudioStream" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/botones/JUEGO_1-2.png" type="Texture" id=6]
 [ext_resource path="res://Assets/botones/JUEGO_1.png" type="Texture" id=7]
 [ext_resource path="res://Assets/botones/JUEGO_2-2.png" type="Texture" id=8]
+[ext_resource path="res://Assets/music-sfx/INTRO ALIEN 2.ogv" type="VideoStream" id=9]
 
 [node name="Node" type="Node"]
 
@@ -29,15 +30,15 @@ __meta__ = {
 }
 
 [node name="Play1" type="TextureButton" parent="Control"]
-anchor_left = 0.111
-anchor_top = 0.317
-anchor_right = 0.211
-anchor_bottom = 0.383
-margin_left = -2.92001
-margin_top = -0.160004
-margin_right = -4.92001
-margin_bottom = 10.16
-rect_rotation = -7.0
+anchor_left = 0.076
+anchor_top = 0.281
+anchor_right = 0.177
+anchor_bottom = 0.358
+margin_left = 0.280003
+margin_top = 0.119995
+margin_right = -2.43999
+margin_bottom = 5.15999
+rect_rotation = -4.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 6 )
 expand = true
@@ -46,15 +47,15 @@ __meta__ = {
 }
 
 [node name="Play2" type="TextureButton" parent="Control"]
-anchor_left = 0.111
-anchor_top = 0.317
-anchor_right = 0.211
-anchor_bottom = 0.383
-margin_left = 113.08
-margin_top = -13.16
-margin_right = 98.08
-margin_bottom = -7.84
-rect_rotation = -7.0
+anchor_left = 0.276
+anchor_top = 0.258
+anchor_right = 0.351
+anchor_bottom = 0.344
+margin_left = -2.72002
+margin_top = 4.15997
+margin_right = 0.279999
+margin_bottom = -0.120026
+rect_rotation = -4.0
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 8 )
 expand = true
@@ -65,6 +66,22 @@ __meta__ = {
 [node name="AudioMenu" type="AudioStreamPlayer" parent="Control"]
 stream = ExtResource( 2 )
 autoplay = true
+
+[node name="C" type="Button" parent="Control"]
+anchor_left = 0.46
+anchor_top = 0.256
+anchor_right = 0.53
+anchor_bottom = 0.316
+margin_left = -0.200012
+margin_top = 0.119995
+margin_right = 14.4
+margin_bottom = 14.32
+rect_rotation = -4.0
+rect_scale = Vector2( 0.75, 0.75 )
+text = "Creditos"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CG1" type="Control" parent="."]
 visible = false
@@ -114,7 +131,7 @@ __meta__ = {
 [node name="VideoPlayer" type="VideoPlayer" parent="CG2"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-stream = ExtResource( 5 )
+stream = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

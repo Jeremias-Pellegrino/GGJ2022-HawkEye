@@ -12,6 +12,10 @@ public class NaveBot2 : Spatial
             if (b.N!=0) {
                 Gal2._.RemoveChild(b);
                 Visible = false;
+                if(b.N == -1)
+                    Gal2._.e2.Playing = true;
+                if (b.N == 1)
+                    Gal2._.e1.Playing = true;
             }
         }
     }

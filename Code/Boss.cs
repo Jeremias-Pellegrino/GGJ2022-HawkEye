@@ -13,6 +13,7 @@ public class Boss : Spatial
         {
             Gal2._.RemoveChild(b);
             vida--;
+            Gal2._.eb.Playing = true;
         }
     }
     public override void _Ready()

@@ -13,7 +13,7 @@ public class Gal2 : Spatial
     public int vida1=10;
     public int vida2=10;
     bool fin = false;
-
+    public AudioStreamPlayer fx1, fx2, e1,e2,a1,a2,eb;
     public void _on_GameOver_finished()
     {
         Menu._.Visible = true;
@@ -27,6 +27,8 @@ public class Gal2 : Spatial
         {
             RemoveChild(b);
             vida1--;
+            if(vida1>0)
+                a1.Playing = true;
         }
 
     }
@@ -36,9 +38,9 @@ public class Gal2 : Spatial
         {
             RemoveChild(b);
             vida2--;
-
+            if (vida2 > 0)
+                a2.Playing = true;
         }
-
     }
     public override void _Input(InputEvent @event)
     {
@@ -63,6 +65,13 @@ public class Gal2 : Spatial
         bala1.SetBala(1);
         bala2.SetBala(-1);
         boss = GetNode<Boss>("BOSS");
+        fx1 = GetNode<AudioStreamPlayer>("FX1");
+        fx2 = GetNode<AudioStreamPlayer>("FX2");
+        e1 = GetNode<AudioStreamPlayer>("NGE1");
+        e2 = GetNode<AudioStreamPlayer>("NGE2");
+        a1 = GetNode<AudioStreamPlayer>("NGA1");
+        a2 = GetNode<AudioStreamPlayer>("NGA2");
+        eb = GetNode<AudioStreamPlayer>("NGEB");
     }
     public override void _Process(float delta)
     {
@@ -104,7 +113,11 @@ public class Gal2 : Spatial
                 }
                 else
                 {
+                    if (PJ1.Visible)
+                        fx1.Playing = true;
                     PJ1.Visible = false;
+                    if (bala1.GetParentOrNull<Spatial>() != null)
+                        RemoveChild(bala1);
                 }
                 if (vida2 > 0)
                 {
@@ -127,7 +140,11 @@ public class Gal2 : Spatial
                 }
                 else
                 {
+                    if (PJ2.Visible)
+                        fx2.Playing = true;
                     PJ2.Visible = false;
+                    if(bala2.GetParentOrNull<Spatial>() != null)
+                        RemoveChild(bala2);
                 }
                 if (rib1)
                 {

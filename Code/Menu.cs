@@ -4,8 +4,8 @@ using System;
 public class Menu : Control
 {
     public static Menu _ { get; set; }
-    public TextureButton ButtonPlay1, ButtonPlay2; public Button Skip1, Skip2, atras1, atras2;
-    PackedScene GameSI, GameGal2;
+    public TextureButton ButtonPlay1, ButtonPlay2; public Button Skip1, Skip2, atras1, atras2, creditos;
+    PackedScene GameSI, GameGal2, FIN;
     public AudioStreamPlayer AStream;
     VideoPlayer v1,v2;
     float timeVideo1 = -1, timeVideo2 = -1;
@@ -18,6 +18,7 @@ public class Menu : Control
         ButtonPlay2 = GetNode<TextureButton>("Play2");
         GameSI = ResourceLoader.Load("res://Tscn/SI2.tscn") as PackedScene;
         GameGal2 = ResourceLoader.Load("res://Tscn/Gal2.tscn") as PackedScene;
+        FIN = ResourceLoader.Load("res://Tscn/FIN.tscn") as PackedScene;
         AStream = GetNode<AudioStreamPlayer>("AudioMenu");
         CG1 = GetParent().GetNode<Control>("CG1");
         CG2 = GetParent().GetNode<Control>("CG2");
@@ -25,6 +26,7 @@ public class Menu : Control
         Skip2 = CG2.GetNode<Button>("SK");
         atras1 = CG1.GetNode<Button>("a");
         atras2 = CG2.GetNode<Button>("a");
+        creditos = GetNode<Button>("C");
         v1 = CG1.GetNode<VideoPlayer>("VideoPlayer");
         v2 = CG2.GetNode<VideoPlayer>("VideoPlayer");
     }
@@ -83,7 +85,7 @@ public class Menu : Control
         }
         if (timeVideo2 > -1)
             timeVideo2 += delta;
-        if (timeVideo2 > 50)
+        if (timeVideo2 > 30)
         {
             CG2.Visible = false;
             v1.Stop();
@@ -104,6 +106,11 @@ public class Menu : Control
             Visible = true;
             AStream.Playing = true;
             timeVideo2 = -1;
+        }
+        if (creditos.Pressed) {
+            Visible = false;
+            AStream.Playing = false;
+            GetParent().AddChild(FIN.Instance<FIN>());
         }
     }
 }
